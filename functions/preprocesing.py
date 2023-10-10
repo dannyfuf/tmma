@@ -1,7 +1,7 @@
 from qgis.core import *
 import qgis.utils
 
-from qgis_utils import get_layer_by_name, get_object_count_in_layer, create_point, create_buffer
+from qgis_utils import get_layer_by_name, get_object_count_in_layer, create_point, create_buffer#, create_layer_of_roads
 
 def tune_buffer_radius(
     roads_layer_name,
@@ -37,3 +37,27 @@ def tune_buffer_radius(
             if points_within_road / len_points_layer >= 0.99:
                 return radius
     return radius
+
+# def filter_roads_in_buffer(
+#     roads_layer_name,
+#     gps_layer_name,
+#     radius
+# ):
+#     point_layer = get_layer_by_name(gps_layer_name)
+#     roads_layer = get_layer_by_name(roads_layer_name)
+#     roads = []
+
+#     for point in point_layer.getFeatures():
+#         point = create_point(point)
+#         buffer = create_buffer(point, radius)
+
+#         for feature in roads_layer.getFeatures():
+#             road = feature.geometry()
+#             if road.intersects(buffer):
+#                 roads.append(road)
+#                 break
+#     create_layer_of_roads(roads)
+#     return roads
+
+# def filter_roads_by_heading():
+#     pass
