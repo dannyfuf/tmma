@@ -3,9 +3,9 @@ from typing import List, Any, TypedDict
 from qgis.core import *
 
 # custom modules
-from functions.points import create_point
-from functions.layers import create_vector_layer
-from functions.lines import create_line
+from geometry.points import create_point
+from geometry.layers import create_vector_layer
+from geometry.lines import create_line
 
 class LayerFields(TypedDict):
     name: str

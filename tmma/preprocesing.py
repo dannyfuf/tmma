@@ -2,8 +2,8 @@ from typing import Callable
 from qgis.core import *
 
 # custom modules
-from functions.layers import get_layer_by_name, get_object_count_in_layer, get_layer_features
-from functions.points import create_point, create_buffer
+from geometry.layers import get_layer_by_name, get_object_count_in_layer, get_layer_features
+from geometry.points import create_point, create_buffer
 
 def tune_buffer_radius(
     roads_layer_name: str,

@@ -35,3 +35,8 @@ def get_layer_features(layer: QgsVectorLayer):
 
 def get_layer_crs(layer: QgsVectorLayer):
     return layer.crs().authid()
+
+def search_feature_by(layer: QgsVectorLayer, query: str):
+    expresion = QgsExpression(query)
+    request = QgsFeatureRequest(expresion)
+    return list(layer.getFeatures(request))
