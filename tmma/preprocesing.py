@@ -109,9 +109,6 @@ def tune_buffer_radius_indexed(distance_index):
     print('starting tuning buffer radius indexed')
     print('-----------------------------------------')
 
-    min_distance = inf
-    for point_id in distance_index:
-        point_distane = distance_index[point_id][0][1]
-        if point_distane < min_distance:
-            min_distance = point_distane
-    return min_distance
+    min_distances = [distance_index[point_id][0][1] for point_id in distance_index]
+    min_distances.sort(reverse=True)
+    return min_distances[0]
