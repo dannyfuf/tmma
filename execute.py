@@ -1,4 +1,5 @@
 import os
+import time
 from qgis.core import *
 import dotenv
 dotenv.load_dotenv()
@@ -19,7 +20,12 @@ sys.path.append(modules_path+'/functions')
 print('loaded modules from: ', modules_path)
 
 from main import main
+
+time_start = time.time()
 main()
+time_end = time.time()
+execution_time = time_end - time_start
+print('execution time: ', execution_time, '[s]')
 
 # closgin qgis
 qgs.exitQgis()
