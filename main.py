@@ -1,9 +1,14 @@
 import os
 from qgis.core import *
+from PyQt5.QtCore import QVariant
 
 # custom modules
-from functions.preprocesing import tune_buffer_radius
-from functions.qgis_utils import add_file_layer, print_layers
+from geometry.project_control import add_file_layer, print_layers
+from geometry.layers import get_layer_by_name, get_layer_features, get_layer_crs, save_layer_to_file, get_object_count_in_layer
+from geometry.layer_builder import LayerConfig, build_point_layer, build_line_layer
+
+from tmma.preprocesing import tune_buffer_radius, create_distance_index, tune_buffer_radius_indexed
+from tmma.utils import save_distance_index, load_distance_index
 
 def main():
     # open gpkg file with layers
@@ -12,10 +17,21 @@ def main():
 
     print_layers()
 
-    radius = tune_buffer_radius(
-        roads_layer_name='portageroads',
-        gps_layer_name='data_1140268103_10sec_1',
-        radius_range=[1, 2],
-        radius_step=1
-    )
-    print('radius: ', radius)
+    # radius = tune_buffer_radius(
+    #     roads_layer_name='portageroads',
+    #     gps_layer_name='data_1140268103_10sec_1',
+    #     radius_range=[0, 1],
+    #     radius_step=lambda x: 2**x
+    # )
+    # print(radius)
+
+
+    # distance_index = create_distance_index(
+    #     roads_layer_name='portageroads',
+    #     gps_layer_name='data_1140268103_10sec_1',
+    # )
+    # save_distance_index(distance_index)
+
+    distance_index = load_distance_index()
+    min_dist = tune_buffer_radius_indexed(distance_index)
+    print(min_dist)
