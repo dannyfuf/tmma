@@ -16,7 +16,7 @@ def create_point(
 def create_buffer(
     point: QgsGeometry,
     radius: float,
-    segments=5
+    segments=10
 ):
     return point.buffer(radius, segments)
 
