@@ -1,9 +1,12 @@
 from typing import Callable
 from qgis.core import *
+from math import inf
 
 # custom modules
 from geometry.layers import get_layer_by_name, get_object_count_in_layer, get_layer_features
 from geometry.points import create_point, create_buffer
+from geometry.lines import create_line
+from geometry.metrics import get_point_line_distance
 
 def tune_buffer_radius(
     roads_layer_name: str,
@@ -75,3 +78,40 @@ def filter_roads_in_radius(
                 filtered_roads.append(road)
                 break
     return filtered_roads
+
+def create_distance_index(
+    roads_layer_name,
+    gps_layer_name,
+):
+    print('-----------------------------------------')
+    print('    starting creating distance index')
+    print('-----------------------------------------')
+    print('roads_layer_name: ', roads_layer_name)
+    print('gps_layer_name: ', gps_layer_name)
+    print('-----------------------------------------')
+    points_layer = get_layer_by_name(gps_layer_name)
+    roads_layer = get_layer_by_name(roads_layer_name)
+
+    distance_index = {}
+    for point in get_layer_features(points_layer):
+        road_distances = []
+        point_geometry = create_point(point)
+        for road in get_layer_features(roads_layer):
+            road_geometry = create_line(road)
+            distance = get_point_line_distance(point_geometry, road_geometry)
+            road_distances.append((road['fid'], distance))
+        road_distances.sort(key=lambda x: x[1])
+        distance_index[point['fid']] = road_distances
+    return distance_index
+
+def tune_buffer_radius_indexed(distance_index):
+    print('-----------------------------------------')
+    print('starting tuning buffer radius indexed')
+    print('-----------------------------------------')
+
+    min_distance = inf
+    for point_id in distance_index:
+        point_distane = distance_index[point_id][0][1]
+        if point_distane < min_distance:
+            min_distance = point_distane
+    return min_distance
