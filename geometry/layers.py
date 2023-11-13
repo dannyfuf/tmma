@@ -37,6 +37,7 @@ def get_layer_crs(layer: QgsVectorLayer):
     return layer.crs().authid()
 
 def search_feature_by(layer: QgsVectorLayer, query: str):
+    # example: "fid = 1"
     expresion = QgsExpression(query)
     request = QgsFeatureRequest(expresion)
     return list(layer.getFeatures(request))
