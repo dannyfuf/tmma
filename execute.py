@@ -20,12 +20,16 @@ sys.path.append(modules_path+'/functions')
 print('loaded modules from: ', modules_path)
 
 from main import main
-
+print('-----------------------------------------')
+print('            starting execution')
+print('-----------------------------------------')
 time_start = time.time()
 main()
 time_end = time.time()
 execution_time = time_end - time_start
+print('-----------------------------------------')
 print('execution time: ', execution_time, '[s]')
+print('-----------------------------------------')
 
 # closgin qgis
 qgs.exitQgis()
