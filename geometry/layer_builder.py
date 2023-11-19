@@ -4,7 +4,7 @@ from qgis.core import *
 
 # custom modules
 from geometry.points import create_point
-from geometry.layers import create_vector_layer
+from geometry.layers import create_vector_layer, get_layer_crs
 from geometry.lines import create_line
 
 class LayerFields(TypedDict):
@@ -75,3 +75,56 @@ def build_line_layer(
     layer_provider.addFeatures(features)
     
     return vector_layer
+
+# convert a layer with lines to a layer with 
+def normalize_line_layer(
+    layer: QgsVectorLayer,
+):
+    standard_crs_name = 'EPSG:32633'
+
+    original_features = layer.getFeatures()
+    original_crs = layer.crs()
+
+    standard_crs = QgsCoordinateReferenceSystem(standard_crs_name)
+    transformer = QgsCoordinateTransform(original_crs, standard_crs, QgsProject.instance())
+
+    converted_layer = QgsVectorLayer(f'MultiLineString?crs={standard_crs_name}', layer.name(), 'memory')
+    converted_layer.startEditing()
+
+    for feature in original_features:
+        original_geometry = feature.geometry()
+        converted_geometry = QgsGeometry(original_geometry)
+        converted_geometry.transform(transformer)
+
+        converted_feature = QgsFeature()
+        converted_feature.setGeometry(converted_geometry)
+        converted_layer.addFeature(converted_feature)
+
+    converted_layer.commitChanges()
+    return converted_layer
+
+def normalize_point_layer(
+    layer: QgsVectorLayer,
+):
+    standard_crs_name = 'EPSG:32633'
+
+    original_features = layer.getFeatures()
+    original_crs = layer.crs()
+
+    standard_crs = QgsCoordinateReferenceSystem(standard_crs_name)
+    transformer = QgsCoordinateTransform(original_crs, standard_crs, QgsProject.instance())
+
+    converted_layer = QgsVectorLayer(f'MultiPoint?crs={standard_crs_name}', layer.name(), 'memory')
+    converted_layer.startEditing()
+
+    for feature in original_features:
+        original_geometry = feature.geometry()
+        converted_geometry = QgsGeometry(original_geometry)
+        converted_geometry.transform(transformer)
+
+        converted_feature = QgsFeature()
+        converted_feature.setGeometry(converted_geometry)
+        converted_layer.addFeature(converted_feature)
+
+    converted_layer.commitChanges()
+    return converted_layer
