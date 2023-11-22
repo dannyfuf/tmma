@@ -23,6 +23,15 @@ def create_buffer(
 ):
     return point.buffer(radius, segments)
 
+
+def point_to_feature(
+    point: QgsPointXY,
+    fields: QgsFields
+):
+    feature = QgsFeature(fields)
+    feature.setGeometry(point)
+    return feature
+
 # ------------------------------------------------------------
 #                         GETTERS
 # ------------------------------------------------------------
@@ -31,8 +40,7 @@ def get_distance_between_points(
     point_i: QgsGeometry,
     point_j: QgsGeometry
 ):
-    distance_in_feet = point_i.distance(point_j)
-    return feet_to_meters(distance_in_feet)
+    return point_i.distance(point_j)
 
 def get_time_between_points(
     point_i: QgsFeature,
