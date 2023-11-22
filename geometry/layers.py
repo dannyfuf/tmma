@@ -17,6 +17,15 @@ def save_layer_to_file(
 ):
     QgsVectorFileWriter.writeAsVectorFormat(layer, file_path, "utf-8", layer.crs(), "GPKG")
 
+def copy_feature(original_feature):
+    new_feature = QgsFeature(original_feature.fields())
+    new_feature.setGeometry(QgsGeometry(original_feature.geometry()))
+
+    for field in original_feature.fields():
+        new_feature.setAttribute(field.name(), original_feature.attribute(field.name()))
+
+    return new_feature
+
 # ------------------------------------------------------------
 #                         GETTERS
 # ------------------------------------------------------------
