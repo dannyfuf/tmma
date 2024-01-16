@@ -1,14 +1,13 @@
 from qgis.core import *
 
 from geometry.lines import get_point_projection_on_line
-from geometry.points import point_to_feature
 from tmma.metrics import compute_speed_of_points
 
-def snap(
+def check_snap(
     point_i: QgsFeature,
     point_j: QgsFeature,
-    mean_speed: float,
     road_segment: QgsFeature,
+    mean_speed: float,
     speed_tol: 1
 )-> bool:
     feat_i_projection = get_point_projection_on_line(point_i, road_segment)
@@ -18,6 +17,4 @@ def snap(
         feat_i_projection,
         feat_j_projection
     )
-
-    print(abs(mean_speed-points_projection_speed))
     return abs(mean_speed-points_projection_speed) < speed_tol

@@ -49,7 +49,7 @@ def tune_buffer_radius(
             if coverage >= 0.99:
                 print(f'radius found: {radius} with coverage: {coverage}')
                 return radius
-    
+
     coverage = points_within_road / len_points_layer
     print(f'radius found: {radius} with coverage: {coverage}')
     return radius
