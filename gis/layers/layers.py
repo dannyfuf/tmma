@@ -1,10 +1,12 @@
+from typing import List
 from qgis.core import (
     QgsVectorLayer,
     QgsVectorFileWriter,
     QgsExpression,
     QgsFeatureRequest,
     QgsWkbTypes,
-    QgsFields
+    QgsFields,
+    QgsFeature
 )
 
 class Layer:
@@ -15,6 +17,27 @@ class Layer:
 
     def new(self, layer_type: str, layer_name: str, layer_crs: str):
         self.__layer = QgsVectorLayer(f"{layer_type}?crs={layer_crs}", layer_name, "memory")
+        return self
+    
+    def build(
+            self,
+            layer_type: str,
+            layer_name: str,
+            layer_crs: str,
+            fields: QgsFields,
+            features: List[QgsFeature]
+        ):
+        self.new(layer_type, layer_name, layer_crs)
+        self.start_editing()
+        self.set_fields(fields)
+
+        for feature in features:
+            converted_feature = QgsFeature()
+            converted_feature.setGeometry(feature.geometry())
+            converted_feature.setAttributes(feature.attributes())
+            self.add_feature(converted_feature)
+
+        self.commit()
         return self
     
     def layer(self):
