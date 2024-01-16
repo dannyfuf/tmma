@@ -1,22 +1,15 @@
-from qgis.core import *
+from qgis.core import (
+    QgsFeature
+)
 
-from PyQt5.QtCore import QVariant
+class Line:
+    __feature: QgsFeature = None
 
-from geometry.layers import copy_feature
+    def __init__(self, feature: QgsFeature):
+        self.__feature = feature
 
-def create_line(
-    object: QgsFeature
-):
-    return object.geometry()
+    def geometry(self):
+        return self.__feature.geometry()
 
-
-def get_point_projection_on_line(
-    point: QgsFeature,
-    line: QgsFeature
-):
-    projected_point = line.geometry().closestSegmentWithContext(point.geometry().asPoint())[1]
-    x, y = projected_point.x(), projected_point.y()
-    new_point = copy_feature(point)
-    new_point.setAttribute('X', x)
-    new_point.setAttribute('Y', y)
-    return new_point
+    def project(self, point: QgsFeature):
+        return self.geometry().closestSegmentWithContext(point.geometry().asPoint())[1]
