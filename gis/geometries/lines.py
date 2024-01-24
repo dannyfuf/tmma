@@ -13,3 +13,6 @@ class Line:
 
     def project(self, point: QgsFeature):
         return self.geometry().closestSegmentWithContext(point.geometry().asPoint())[1]
+
+    def id(self):
+        return self.__feature['fid']

@@ -17,10 +17,9 @@ class Point:
         if type(target) == Point:
             point_geometry = target.geometry()
         elif type(target) == Line:
-            projection = target.project(self.__feature)
-            point_geometry = projection.geometry()
+            point_geometry = target.project(self.__feature)
 
-        return self.__geometry.distance(point_geometry)
+        return self.geometry().asPoint().distance(point_geometry)
     
     def time_to(self, point: QgsFeature, field_name='Time'):
         format = "%I:%M:%S %p"
@@ -33,3 +32,6 @@ class Point:
     
     def buffer(self, radius: float, segments=10):
         return self.__geometry.buffer(radius, segments)
+
+    def id(self):
+        return self.__feature['fid']
