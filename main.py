@@ -1,7 +1,11 @@
 # custom modules
 from gis.project.project import Project
 from gis.layers.normalizer import Normalizer
+
 from tmma.utils import get_path
+from tmma.distance_index.distance_index import DistanceIndex
+
+from tmma.utils import load_distance_index
 
 def main():
     project = Project()
@@ -15,10 +19,7 @@ def main():
     )
     project.print_layers()
 
-    layer = project.get_layer_by_name('portageroads')
-    normalizer = Normalizer(layer)
-    normalizer.normalize()
-    normalized_layer = normalizer.normalized_layer()
-    # normalizer.save(get_path('portageroads_normalized_new.gpkg'))
-    print(layer.units())
-    print(normalized_layer.units())
+    road_layer = project.get_layer_by_name('portageroads')
+    gps_layer = project.get_layer_by_name('data_1140268103_10sec_1')
+
+    distance_index = DistanceIndex(road_layer=road_layer, gps_layer=gps_layer)
