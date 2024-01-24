@@ -95,3 +95,12 @@ class Layer:
 
     def commit(self):
         self.layer().commitChanges()
+
+    def points_order(self):
+        if self.type() == 'MultiLineString':
+            raise Exception('Method not supported for MultiLineString layers')
+
+        request = QgsFeatureRequest().addOrderBy('Time')
+        sorted_features = self.layer().getFeatures(request)
+        return [feature['fid'] for feature in sorted_features]
+        
