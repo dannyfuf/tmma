@@ -45,8 +45,11 @@ class Project:
             print(layer.name())
         print('-----------------------------------------')
 
-    def save_distance_index(self, distance_index: dict):
-        distance_index_path = '.distance_index.json'
+    def save_distance_index(
+            self,
+            distance_index: dict,
+            distance_index_path: str = '.distance_index.json'
+        ):
         with open(distance_index_path, 'w') as f:
             dump(distance_index, f)
         print('saved distance index to: ', distance_index_path)
