@@ -88,4 +88,27 @@ class DistanceIndex:
         if self.__current_point is None:
             return None
         return self.__current_point.point_id
+    
+    def distances(self):
+        return self.__distances
 
+    def remove_roads_outside_buffer(self, buffer):
+        for point_id in self.distances():
+            point_distances = self.distances()[point_id]
+            number_of_roads = len(point_distances.distances_queue)
+            for i in range(number_of_roads):
+                road = point_distances.distances_queue[i]
+                if road.distance > buffer:
+                    point_distances.distances_queue = point_distances.distances_queue[:i]
+                    break
+    
+    def as_dict(self):
+        tmp_dict = {}
+
+        for point_id in self.distances():
+            point_distances = self.distances()[point_id].distances_queue
+            distances_array = []
+            for distance in point_distances:
+                distances_array.append([distance.road_id, distance.distance])
+            tmp_dict[point_id] = distances_array
+        return tmp_dict
