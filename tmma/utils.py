@@ -8,12 +8,10 @@ def save_distance_index(distance_index):
         json.dump(distance_index, f)
     print('saved distance index to: ', distance_index_path)
 
-def load_distance_index():
-    # load dict from json
-    distance_index_path = get_path('distance_index.json')
-    with open(distance_index_path, 'r') as f:
+def load_distance_index(path):
+    with open(path, 'r') as f:
         distance_index = json.load(f)
-    print('loaded distance index from: ', distance_index_path)
+    print('loaded distance index from: ', path)
     return distance_index
 
 def get_path(filename):
