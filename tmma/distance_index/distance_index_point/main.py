@@ -1,6 +1,6 @@
-from .distance import Distance
+from ..distance import Distance
 
-class DistanceIndexElement:
+class DistanceIndexPoint:
     point_id: str
     distances_queue: list[Distance]
     current_road: Distance

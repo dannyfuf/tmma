@@ -1,4 +1,4 @@
-from ..distance_index.distance_index import DistanceIndex
+from ..distance_index.main import DistanceIndex
 
 class BufferTuner:
     distance_index: DistanceIndex

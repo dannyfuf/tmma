@@ -1,9 +1,9 @@
 # custom modules
-from gis.project.project import Project
-from gis.layers.normalizer import Normalizer
+from gis import Project
+from gis import Layer
 
 from tmma.utils import get_path, load_distance_index
-from tmma.distance_index.distance_index import DistanceIndex
+from tmma.distance_index.main import DistanceIndex
 from tmma.preprocesing.buffer_tuner import BufferTuner
 
 def main():
