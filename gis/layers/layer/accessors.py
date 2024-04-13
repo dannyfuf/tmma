@@ -2,7 +2,7 @@ from qgis.core import QgsWkbTypes
 
 class Accessors:
     def layer(self):
-        return self.__layer
+        return self._layer
 
     def name(self):
         return self.layer().name()

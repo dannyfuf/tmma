@@ -6,7 +6,7 @@ from qgis.core import (
     QgsVectorLayer
 )
 
-from ..layers.layers import Layer
+from ..layers.layer.main import Layer
 
 class Project:
     __distance_index: dict = None

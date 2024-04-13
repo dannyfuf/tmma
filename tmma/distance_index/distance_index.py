@@ -1,7 +1,7 @@
 from qgis.core import QgsFeature
 
 from .distance_index_element import DistanceIndexElement
-from gis.layers.layers import Layer
+from gis.layers.layer.main import Layer
 from gis.geometries.points import Point, Line
 from gis.project.project import Project
 
