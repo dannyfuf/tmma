@@ -4,7 +4,7 @@ from qgis.core import (
     QgsFeature,
 )
 
-from ..layer import Layer
+from ..layer.main import Layer
 
 class Handlers:
     def build_crs_transformer(self, crs_from, context):
@@ -36,7 +36,7 @@ class Handlers:
             normalized_layer.add_feature(converted_feature)
 
         normalized_layer.commit()
-        self.__normalized_layer = normalized_layer
+        self._normalized_layer = normalized_layer
     
     def save(self, path: str):
         self.normalized_layer().save_to(path)
