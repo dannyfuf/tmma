@@ -13,14 +13,14 @@ class DistanceIndex:
     __current_point: DistanceIndexElement
     __current_candidate_road: QgsFeature
 
-    def __init__(self, road_layer: Layer, gps_layer: Layer, distanceIndex: dict[str, list[tuple[str, float]]] = None):
+    def __init__(self, road_layer: Layer, gps_layer: Layer, distance_index: dict[str, list[tuple[str, float]]] = None):
         self.__road_layer = road_layer
         self.__gps_layer = gps_layer
         self.__points_order = self.__gps_layer.points_order()
         self.__current_point = None
         self.__current_candidate_road = None
-        if distanceIndex:
-            self.__distances = self.__build_distance_elements(distanceIndex)
+        if distance_index:
+            self.__distances = self.__build_distance_elements(distance_index)
         else:
             self.__distances = self.__build_distance_index_from_layers()
 
