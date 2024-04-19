@@ -35,3 +35,6 @@ class Point:
 
     def id(self):
         return self.__feature['fid']
+    
+    def feature(self):
+        return self.__feature
