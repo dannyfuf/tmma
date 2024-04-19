@@ -9,10 +9,10 @@ class BufferTuner:
     def get_buffer(self):
         buffer_size = 0
 
-        for point_id in self.distance_index.distances():
-            distance_to_nearest_road = self.distance_index.distances()[point_id].distances_queue[0].distance
+        nearest_road_by_point = []
+        for point in self.distance_index.distances().values():
+            nearest_road = point.distances_queue[0].distance
+            nearest_road_by_point.append(nearest_road)
 
-            if distance_to_nearest_road > buffer_size:
-                buffer_size = distance_to_nearest_road
-        
+        buffer_size = max(nearest_road_by_point)
         return buffer_size
