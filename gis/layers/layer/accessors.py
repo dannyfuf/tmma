@@ -23,7 +23,7 @@ class Accessors:
         return list(map(lambda field: field.name(), self.fields()))
     
     def features(self):
-        return self.layer().getFeatures()
+        return list(self.layer().getFeatures())
     
     def add_feature(self, feature):
         self.layer().addFeature(feature)
