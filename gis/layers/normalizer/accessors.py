@@ -5,9 +5,6 @@ class Accessors:
     def crs_to(self):
         return self._crs_to
 
-    def layer(self):
-        return self._layer
-
     def transformer(self):
         return self._transformer
     

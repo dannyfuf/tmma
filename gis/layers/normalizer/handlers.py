@@ -2,6 +2,7 @@ from qgis.core import (
     QgsCoordinateTransform,
     QgsGeometry,
     QgsFeature,
+    QgsProject,
 )
 
 from ..layer.main import Layer
@@ -14,18 +15,23 @@ class Handlers:
             context
         )
 
-    def normalize(self):
-        fields = self.layer().fields()
+    def normalize(self, layer: Layer):
+        self._transformer = self.build_crs_transformer(
+            crs_from=layer.crs(),
+            context=QgsProject.instance()
+        )
+
+        fields = layer.fields()
         normalized_layer = Layer().new(
-            layer_type=self.layer().type(),
-            layer_name=self.layer().name(),
+            layer_type=layer.type(),
+            layer_name=layer.name(),
             layer_crs=self.default_crs()
         )
 
         normalized_layer.start_editing()
         normalized_layer.set_fields(fields)
 
-        for feature in self.layer().features():
+        for feature in layer.features():
             original_geometry = feature.geometry()
             converted_geometry = QgsGeometry(original_geometry)
             converted_geometry.transform(self.transformer())
@@ -36,4 +42,4 @@ class Handlers:
             normalized_layer.add_feature(converted_feature)
 
         normalized_layer.commit()
-        self._normalized_layer = normalized_layer
+        return normalized_layer
