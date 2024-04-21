@@ -37,6 +37,3 @@ class Handlers:
 
         normalized_layer.commit()
         self._normalized_layer = normalized_layer
-    
-    def save(self, path: str):
-        self.normalized_layer().save_to(path)
