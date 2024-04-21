@@ -37,8 +37,6 @@ class DistanceIndex:
             road_distances.sort(key=lambda x: x[1])
             tmp_distance_index[point.id()] = road_distances
 
-        project = Project()
-        project.save_distance_index(tmp_distance_index)
         distance_index = self.__build_distance_elements(tmp_distance_index)
         return distance_index
     
