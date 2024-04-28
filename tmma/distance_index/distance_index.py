@@ -1,9 +1,9 @@
-from qgis.core import QgsFeature
 
 from .distance_index_element import DistanceIndexElement
 from gis.layers.layer.main import Layer
 from gis.geometries.points import Point, Line
 from gis.project.project import Project
+from gis.layers.normalizer.main import Normalizer
 
 class DistanceIndex:
     __distances: dict[DistanceIndexElement]
@@ -39,7 +39,16 @@ class DistanceIndex:
 
         distance_index = self.__build_distance_elements(tmp_distance_index)
         return distance_index
-    
+
+    def __get_road_ids(self):
+        road_ids = []
+        for point_id in self.distances():
+            point_distances = self.distances()[point_id].distances_queue
+            for distance in point_distances:
+                road_ids.append(distance.road_id)
+        return list(set(road_ids))
+
+
     def distances(self):
         return self.__distances
 
@@ -66,3 +75,22 @@ class DistanceIndex:
                 distances_array.append([distance.road_id, distance.distance])
             tmp_dict[point_id] = distances_array
         return tmp_dict
+    
+    def get_layer_of_current_roads(self):
+        road_ids = self.__get_road_ids()
+        filtered_features = []
+        for road_id in road_ids:
+            road = self.__road_layer.get_feature_by_id(road_id)
+            filtered_features.append(road)
+
+        layer_name = f'{self.__road_layer.name()}_cleaned'
+        filtered_road = Layer().build(
+            layer_type=self.__road_layer.type(),
+            layer_name=layer_name,
+            layer_crs=self.__road_layer.crs(),
+            fields=self.__road_layer.fields(),
+            features=filtered_features
+        )
+        normalizer = Normalizer()
+        norm_filtered_road = normalizer.normalize(filtered_road)
+        return norm_filtered_road
