@@ -6,11 +6,9 @@ from qgis.core import (
     QgsVectorLayer
 )
 
-from ..layers.layer.main import Layer
+from gis.layers.layer.main import Layer
 
 class Project:
-    __distance_index: dict = None
-
     def get_path(self, filename):
         return f'{getenv("DATA_PATH")}/{filename}'
 
@@ -54,10 +52,9 @@ class Project:
             dump(distance_index, f)
         print('saved distance index to: ', distance_index_path)
 
-    def load_distance_index(self):
+    def load_distance_index(self, distance_index_path: str = '.data/.distance_index.json'):
         distance_index_path = '.distance_index.json'
         with open(distance_index_path, 'r') as f:
-            distance_index = load(f)
+            distance_index_json = load(f)
         print('loaded distance index from: ', distance_index_path)
-        self.__distance_index = distance_index
-        return self.__distance_index
+        return distance_index_json
