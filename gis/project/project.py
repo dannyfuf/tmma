@@ -1,5 +1,4 @@
 from os import getenv
-from json import dump, load
 
 from qgis.core import (
     QgsProject,
@@ -42,19 +41,3 @@ class Project:
         for layer in QgsProject.instance().mapLayers().values():
             print(layer.name())
         print('-----------------------------------------')
-
-    def save_distance_index(
-            self,
-            distance_index: dict,
-            distance_index_path: str = '.distance_index.json'
-        ):
-        with open(distance_index_path, 'w') as f:
-            dump(distance_index, f)
-        print('saved distance index to: ', distance_index_path)
-
-    def load_distance_index(self, distance_index_path: str = '.data/.distance_index.json'):
-        distance_index_path = '.distance_index.json'
-        with open(distance_index_path, 'r') as f:
-            distance_index_json = load(f)
-        print('loaded distance index from: ', distance_index_path)
-        return distance_index_json
