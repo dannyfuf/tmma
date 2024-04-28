@@ -32,7 +32,11 @@ class Handlers:
         return self
     
     def save_to(self, file_path: str):
+        print(f'saving layer to {file_path}')
         QgsVectorFileWriter.writeAsVectorFormat(self.layer(), file_path, "utf-8", self.layer().crs(), "GPKG")
+
+    def get_feature_by_id(self, fid: int):
+        return self.query(f"fid = {fid}")[0]
 
     def query(self, query: str):
         expresion = QgsExpression(query) # example: "fid = 1"
