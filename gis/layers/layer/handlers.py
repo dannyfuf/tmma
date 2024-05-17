@@ -43,6 +43,11 @@ class Handlers:
         request = QgsFeatureRequest(expresion)
         return list(self.layer().getFeatures(request))
         
+    def query_by_id(self, fid: int):
+        expresion = QgsExpression(f"fid = {fid}")
+        request = QgsFeatureRequest(expresion)
+        return list(self.layer().getFeatures(request))[0]
+
     def start_editing(self):
         self.layer().startEditing()
 
@@ -60,3 +65,16 @@ class Handlers:
         request = QgsFeatureRequest().addOrderBy('Time')
         sorted_features = self.layer().getFeatures(request)
         return [feature['fid'] for feature in sorted_features]
+    
+    def get_mean_speed(self):
+        if self.type() == 'MultiLineString':
+            raise Exception('Method not supported for MultiLineString layers')
+        
+        if len(self.features()) == 0:
+            return 0
+
+        speeds = []
+        for feature in self.features():
+            speeds.append(feature['Speed'])
+
+        return sum(speeds) / len(speeds)
