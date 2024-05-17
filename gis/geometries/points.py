@@ -1,8 +1,8 @@
 from typing import Union
 from qgis.core import QgsFeature
 from datetime import datetime
-
-from .lines import Line
+class Line:
+    pass
 
 class Point:
     __feature: QgsFeature = None
@@ -13,7 +13,8 @@ class Point:
     def geometry(self):
         return self.__feature.geometry()
 
-    def distance_to(self, target: Union['Point', Line]):
+    def distance_to(self, target: Union['Point', 'Line']):
+        from gis import Line
         if type(target) == Point:
             point_geometry = target.geometry()
         elif type(target) == Line:
@@ -38,3 +39,9 @@ class Point:
     
     def feature(self):
         return self.__feature
+    
+    def compute_speed_to(self, point: 'Point'):
+        current_time = self.time_to(point)
+        target_time = point.time_to(self.__feature)
+        distance = self.distance_to(point)
+        return distance / (target_time - current_time)
