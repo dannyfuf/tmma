@@ -1,1 +1,1 @@
-from .distance_index.distance_index import DistanceIndex
+from .distance_index.main import DistanceIndex
