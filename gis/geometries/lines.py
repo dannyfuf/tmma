@@ -12,7 +12,7 @@ class Line:
     def feature(self):
         return self.__feature
 
-    def project(self, point: QgsFeature):
+    def project(self, point):
         from gis import Point
 
         shortest_line_geometry = self.geometry().shortestLine(point.geometry())

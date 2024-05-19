@@ -1,11 +1,9 @@
 from typing import Union
 from qgis.core import QgsFeature
 from datetime import datetime
-class Line:
-    pass
 
 class Point:
-    __feature: QgsFeature = None
+    _feature: QgsFeature = None
 
     def __init__(self, feature: QgsFeature):
         self.__feature = feature
@@ -13,14 +11,17 @@ class Point:
     def geometry(self):
         return self.__feature.geometry()
 
-    def distance_to(self, target: Union['Point', 'Line']):
+    def distance_to(self, target):
         from gis import Line
+
         if type(target) == Point:
             point_geometry = target.geometry()
         elif type(target) == Line:
-            point_geometry = target.project(self.__feature)
+            point_geometry = target.project(Point(self.__feature)).geometry()
+        else:
+            raise Exception('target not supported')
 
-        return self.geometry().asPoint().distance(point_geometry)
+        return self.geometry().distance(point_geometry)
     
     def time_to(self, point: QgsFeature, field_name='Time'):
         format = "%I:%M:%S %p"
