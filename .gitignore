@@ -10,3 +10,4 @@ __pycache__/
 .*.json
 *.gpkg*
 .DS_Store
+.data/
