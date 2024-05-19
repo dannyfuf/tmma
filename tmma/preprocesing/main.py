@@ -1,7 +1,6 @@
 
 from gis.layers.layer.main import Layer
-from gis.project.project import Project
-from tmma.distance_index.distance_index import DistanceIndex
+from tmma.distance_index import DistanceIndex
 from tmma.preprocesing.buffer_tuner import BufferTuner
 
 
@@ -27,7 +26,7 @@ class Preprocessing:
 
         self._distance_index.remove_roads_outside_buffer(buffer_size)
         self._distance_index.save_to('.data/.distance_index_filtered.json')
-        norm_filtered_roads = self._distance_index.get_layer_of_current_roads()
+        norm_filtered_roads = self._distance_index.build_road_layer_from_distance_index()
         norm_filtered_roads.save_to(f'.data/{norm_filtered_roads.name()}_cleaned.gpkg')
         self.filtered_roads = norm_filtered_roads
 
