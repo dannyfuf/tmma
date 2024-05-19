@@ -1,4 +1,5 @@
 
+from typing import Dict, TypedDict
 from gis.layers.layer.main import Layer
 
 from .accessors import Accessors
@@ -6,7 +7,7 @@ from .handlers import Handlers
 from ..distance_index_elements import DistanceIndexElement
 
 class DistanceIndex(Accessors, Handlers):
-    _distances: dict[DistanceIndexElement]
+    _distances: Dict[int, DistanceIndexElement]
     _road_layer: Layer
     _point_layer: Layer
 
