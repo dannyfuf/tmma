@@ -49,7 +49,7 @@ class Handlers:
         for point_id in distance_index:
             point = Point(self._point_layer.get_feature_by_id(point_id))
             point_distances = self._build_distances(distance_index[point_id])
-            tmp_distance_index[point_id] = DistanceIndexElement(point, point_distances)
+            tmp_distance_index[int(point_id)] = DistanceIndexElement(point, point_distances)
         return tmp_distance_index
     
     def _build_distances(self, road_distances):
