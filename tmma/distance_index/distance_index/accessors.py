@@ -1,12 +1,28 @@
+from typing import List
+
+from gis import Point
+
 class Accessors:
     def road_layer(self):
         return self._road_layer
     
-    def points_layer(self):
-        return self._points_layer
+    def point_layer(self):
+        return self._point_layer
 
     def distances(self):
         return self._distances
+
+    def points(self):
+        points: List[Point] = []
+        for distance_index_element in self._distances.values():
+            points.append(distance_index_element.point)
+        return points
+
+    def get_closest_road(self, point):
+        distance_element = self._distances[point.id()]
+        closest_point = distance_element.get_closest_road()
+        return closest_point
+
 
     def get_distances_from_point(self, point_id):
         return self._distances[point_id].distances_queue
