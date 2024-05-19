@@ -19,8 +19,9 @@ class Project:
         layer = self.read_layer_from_file(file_path, layer_name)
         if layer.isValid():
             QgsProject.instance().addMapLayer(layer)
+            return Layer(layer)
         else:
-            print('layer not valid')
+            raise Exception('layer not valid')
 
     def read_layer_from_file(
         self,
