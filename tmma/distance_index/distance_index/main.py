@@ -1,13 +1,13 @@
 
-from typing import Dict, TypedDict
+from typing import Dict
 from gis.layers.layer.main import Layer
 
 from .accessors import Accessors
 from .handlers import Handlers
-from ..distance_index_elements import DistanceIndexElement
+from ..distance_index_elements import IndexElement
 
 class DistanceIndex(Accessors, Handlers):
-    _distances: Dict[int, DistanceIndexElement]
+    _distances: Dict[int, IndexElement]
     _road_layer: Layer
     _point_layer: Layer
 

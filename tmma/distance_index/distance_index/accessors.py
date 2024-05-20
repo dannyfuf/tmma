@@ -1,6 +1,7 @@
 from typing import List
 
 from gis import Point
+from tmma.distance_index.distance_index_elements import IndexElement
 
 class Accessors:
     def road_layer(self):
@@ -18,10 +19,11 @@ class Accessors:
             points.append(distance_index_element.point)
         return points
 
-    def get_closest_road(self, point):
-        distance_element = self._distances[point.id()]
-        closest_point = distance_element.get_closest_road()
-        return closest_point
+    def get_closest_road(self, point: Point):
+        distance_element: IndexElement = self._distances[point.id()]
+        closest_point_distance = distance_element.get_closest_road()
+        closest_road = closest_point_distance.road
+        return closest_road
 
 
     def get_distances_from_point(self, point_id):
@@ -43,6 +45,6 @@ class Accessors:
             point_distances = self.distances()[point_id].distances_queue
             distances_array = []
             for distance in point_distances:
-                distances_array.append([distance.road_id, distance.distance])
+                distances_array.append([distance.road.id(), distance.distance])
             tmp_dict[point_id] = distances_array
         return tmp_dict

@@ -1,7 +1,7 @@
 from json import dump, load
 
 from gis import Line, Point, Layer
-from ..distance_index_elements import DistanceIndexElement, Distance
+from ..distance_index_elements import IndexElement, Distance
 
 
 class Handlers:
@@ -49,7 +49,7 @@ class Handlers:
         for point_id in distance_index:
             point = Point(self._point_layer.get_feature_by_id(point_id))
             point_distances = self._build_distances(distance_index[point_id])
-            tmp_distance_index[int(point_id)] = DistanceIndexElement(point, point_distances)
+            tmp_distance_index[int(point_id)] = IndexElement(point, point_distances)
         return tmp_distance_index
     
     def _build_distances(self, road_distances):
@@ -68,7 +68,8 @@ class Handlers:
             road_distances = []
             for road in roads:
                 distance = point.distance_to(road)
-                road_distances.append((road.id(), distance))
+                if distance != None:
+                    road_distances.append((road.id(), distance))
             road_distances.sort(key=lambda x: x[1])
             tmp_distance_index[point.id()] = road_distances
 
