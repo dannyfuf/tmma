@@ -1,2 +1,2 @@
 from .distance import Distance
-from .distance_index_element import DistanceIndexElement
+from .index_element import IndexElement
