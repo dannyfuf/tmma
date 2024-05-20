@@ -1,7 +1,7 @@
-from gis.geometries.points import Point
+from gis import Point
 from .distance import Distance
 
-class DistanceIndexElement:
+class IndexElement:
     point: Point
     distances_queue: list[Distance]
 
