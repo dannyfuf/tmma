@@ -13,7 +13,6 @@ class Point:
     def distance_to(self, target):
         shortest_line_geometry = self.geometry().shortestLine(target.geometry())
         return shortest_line_geometry.length()
-
     
     def time_to(self, point: QgsFeature, field_name='Time'):
         format = "%I:%M:%S %p"

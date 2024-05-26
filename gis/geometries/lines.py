@@ -15,10 +15,9 @@ class Line:
     def project(self, point):
         from gis import Point
 
-        shortest_line_geometry = self.geometry().shortestLine(point.geometry())
-        intersection_point = shortest_line_geometry.intersection(self.geometry())
+        nearest_point = self.geometry().nearestPoint(point.geometry())
         feature = QgsFeature()
-        feature.setGeometry(intersection_point)
+        feature.setGeometry(nearest_point)
         feature.setAttributes(point.feature().attributes())
         return Point(feature)
 
