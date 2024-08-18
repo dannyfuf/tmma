@@ -17,7 +17,7 @@ class Accessors:
         points: List[Point] = []
         for distance_index_element in self._distances.values():
             points.append(distance_index_element.point)
-        return points
+        return sorted(points, key=lambda x: x.id())
 
     def get_closest_road(self, point: Point):
         distance_element: IndexElement = self._distances[point.id()]
