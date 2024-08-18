@@ -14,10 +14,10 @@ class Point:
         shortest_line_geometry = self.geometry().shortestLine(target.geometry())
         return shortest_line_geometry.length()
     
-    def time_to(self, point: QgsFeature, field_name='Time'):
+    def time_to(self, point, field_name='Time'):
         format = "%I:%M:%S %p"
         time_i = datetime.strptime(self.__feature[field_name], format)
-        time_j = datetime.strptime(point[field_name], format)
+        time_j = datetime.strptime(point.feature()[field_name], format)
         return (time_j - time_i).total_seconds()
 
     def speed(self, field_name='Speed'):
