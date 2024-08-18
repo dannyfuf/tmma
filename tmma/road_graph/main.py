@@ -14,7 +14,7 @@ class RoadGraph:
 
     def graph(self):
         return self._graph
-    
+
     def describe_graph(self):
         print(f'nodes: {len(self._graph.nodes())}')
         print(f'edges: {len(self._graph.edges())}')
@@ -46,7 +46,7 @@ class RoadGraph:
         route_lines = self._build_route_lines(route)
         if len(route) == 1:
             return self._compute_distance_only_one_road(route_lines[0], start_point, end_point)
-        
+
         intersections = self._compute_roads_intersections(route_lines)
         points_in_route = [start_point]+ intersections + [end_point]
         total_distance = 0
@@ -81,13 +81,13 @@ class RoadGraph:
 
     def _are_connected(self, geometry1, geometry2):
         return geometry1.touches(geometry2) or geometry1.intersects(geometry2)
-    
+
     def _build_route_lines(self, route):
         lines = []
         for road_id in route:
             lines.append(Line(self._road_layer.get_feature_by_id(road_id)))
         return lines
-    
+
     def _compute_roads_intersections(self, roads: List[Line]):
         intersections = []
         for road_idx in range(len(roads) - 1):
