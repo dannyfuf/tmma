@@ -29,3 +29,13 @@ class Line:
     
     def length_to(self, point):
         return self.geometry().lineLocatePoint(point.geometry())
+
+    def intersection(self, other):
+        from gis import Point
+        intersection = self.geometry().intersection(other.geometry())
+        if intersection.isEmpty():
+            return None
+        else:
+            feature = QgsFeature()
+            feature.setGeometry(intersection)
+            return Point(feature)
