@@ -1,8 +1,3 @@
-from typing import List
-
-from gis import Line
-from tmma import Snap
-
 class ValidateSnap:
     def __init__(
         self,
