@@ -30,7 +30,7 @@ class Handlers:
 
         self.commit()
         return self
-    
+
     def save_to(self, file_path: str):
         print(f'saving layer to {file_path}')
         QgsVectorFileWriter.writeAsVectorFormat(self.layer(), file_path, "utf-8", self.layer().crs(), "GPKG")
@@ -42,7 +42,7 @@ class Handlers:
         expresion = QgsExpression(query) # example: "fid = 1"
         request = QgsFeatureRequest(expresion)
         return list(self.layer().getFeatures(request))
-        
+
     def query_by_id(self, fid: int):
         expresion = QgsExpression(f"fid = {fid}")
         request = QgsFeatureRequest(expresion)
@@ -65,11 +65,11 @@ class Handlers:
         request = QgsFeatureRequest().addOrderBy('Time')
         sorted_features = self.layer().getFeatures(request)
         return [feature['fid'] for feature in sorted_features]
-    
+
     def get_mean_speed(self):
         if self.type() == 'MultiLineString':
             raise Exception('Method not supported for MultiLineString layers')
-        
+
         if len(self.features()) == 0:
             return 0
 

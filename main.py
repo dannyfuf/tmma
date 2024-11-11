@@ -1,51 +1,35 @@
-# custom modules
-from gis.geometries.lines import Line
-from gis.geometries.points import Point
-from gis.layers.layer.main import Layer
-from gis.project.project import Project
-# from gis.layers.normalizer.main import Normalizer
+from qgis.core import QgsFeature
+import time
 
-# from tmma.distance_index.distance_index import DistanceIndex
-# from tmma.preprocesing.main import Preprocessing
-# from tmma.snapping.route_graph import RoutesGraph
-from tmma.snapping.route_generator import RouteGenerator
-from tmma.utils import get_path
-# from tmma.preprocesing.buffer_tuner import BufferTuner
+# custom modules
+from gis.project.project import Project # file project.py is different from project/main.py --> fix this
+from tmma import DistanceIndex, TMMA
+from tmma.road_graph.main import RoadGraph
+from utils import get_path
 
 def main():
     project = Project()
-    project.add_layer_from(
-        file_path=get_path('test_roads.gpkg'),
-        layer_name='tmp_roads'
+    road_layer = project.add_layer_from(
+        file_path=get_path('portageroads_cleaned.gpkg'),
+        layer_name='portageroads_cleaned'
     )
-    project.add_layer_from(
-        file_path=get_path('test_points.gpkg'),
-        layer_name='test_points'
+    points_layer = project.add_layer_from(
+        file_path=get_path('data_1140268103_10sec_1_norm.gpkg'),
+        layer_name='data_1140268103_10sec_1_norm'
     )
+
     project.print_layers()
-
-    road_layer = project.get_layer_by_name('tmp_roads')
-    points_layer = project.get_layer_by_name('test_points')
-
     print(road_layer.units(), points_layer.units())
+    print(road_layer.crs_name(), points_layer.crs_name())
+    print(points_layer.type(), road_layer.type())
 
-    point1 = Point(points_layer.features()[0])
-    point2 = Point(points_layer.features()[1])
-    road1 = Line(road_layer.features()[0])
-    road2 = Line(road_layer.features()[1])
+    distance_index = DistanceIndex(road_layer, points_layer)
+    distance_index.save_to('.data/.distance_index.json')
+    tmma = TMMA(distance_index, 10)
+    tmma.run()
+    snapped_roads_layer = tmma.build_snapped_roads_layer()
+    snapped_points_layer = tmma.build_snapped_points_layer()
 
-    proj1 = road1.project(point1)
-    proj2 = road2.project(point2)
-
-    route_generator = RouteGenerator(road_layer)
-    route = route_generator.generate_route(proj1, proj2)
-    route_length = route_generator.calculate_route_lenght(route, proj1, proj2)
-    print(route_length)
-
-    Layer().build(
-        road_layer.type(),
-        'route_roads',
-        road_layer.crs_name(),
-        road_layer.fields(),
-        [road.feature() for road in route]
-    ).save_to(get_path('tmp_path_roads.gpkg'))
+    timestamp = int(time.time())
+    snapped_roads_layer.save_to(get_path(f'{timestamp}_snapped_roads_mean.gpkg'))
+    snapped_points_layer.save_to(get_path(f'{timestamp}_snapped_points_mean.gpkg'))

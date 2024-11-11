@@ -13,7 +13,7 @@ class Point:
     def distance_to(self, target):
         shortest_line_geometry = self.geometry().shortestLine(target.geometry())
         return shortest_line_geometry.length()
-    
+
     def time_to(self, point, field_name='Time'):
         format = "%I:%M:%S %p"
         time_i = datetime.strptime(self.__feature[field_name], format)
@@ -22,16 +22,16 @@ class Point:
 
     def speed(self, field_name='Speed'):
         return self.__feature[field_name]
-    
+
     def buffer(self, radius: float, segments=10):
         return self.__geometry.buffer(radius, segments)
 
     def id(self):
         return self.__feature['fid']
-    
+
     def feature(self):
         return self.__feature
-    
+
     def compute_speed_to(self, point: 'Point'):
         current_time = self.time_to(point)
         target_time = point.time_to(self.__feature)

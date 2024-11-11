@@ -23,7 +23,7 @@ class Handlers:
                 if road.distance > buffer:
                     point_distances.distances_queue = point_distances.distances_queue[:i]
                     break
-    
+
     def build_road_layer_from_distance_index(self):
         print('Building road layer from distance index')
         roads = self.get_roads_from_distance_index()
@@ -51,7 +51,7 @@ class Handlers:
             point_distances = self._build_distances(distance_index[point_id])
             tmp_distance_index[int(point_id)] = IndexElement(point, point_distances)
         return tmp_distance_index
-    
+
     def _build_distances(self, road_distances):
         tmp_distances = []
         for road_id, road_distance in road_distances:

@@ -6,7 +6,7 @@ from tmma.distance_index.distance_index_elements import IndexElement
 class Accessors:
     def road_layer(self):
         return self._road_layer
-    
+
     def point_layer(self):
         return self._point_layer
 
@@ -27,7 +27,7 @@ class Accessors:
 
 
     def get_distances_from_point(self, point_id):
-        return self._distances[point_id].distances_queue
+        return self._distances[point_id]
 
     def get_roads_from_distance_index(self):
         distances = self.distances()

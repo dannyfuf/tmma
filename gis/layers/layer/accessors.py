@@ -9,22 +9,22 @@ class Accessors:
 
     def crs(self):
         return self.layer().crs()
-    
+
     def crs_name(self):
         return self.layer().crs().authid()
 
     def units(self):
         return self.layer().crs().mapUnits()
-    
+
     def fields(self):
         return self.layer().fields()
-    
+
     def field_names(self):
         return list(map(lambda field: field.name(), self.fields()))
-    
+
     def features(self):
         return list(self.layer().getFeatures())
-    
+
     def add_feature(self, feature):
         self.layer().addFeature(feature)
 
