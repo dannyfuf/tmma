@@ -1,5 +1,5 @@
 # TMMA
-Implementation of a Topological Map Matching Algorithm, based on Blazquez, C., León, R., Pérez, F., & Delgado, L. (2022). Pre-processing techniques for improving a topological map-matching algorithm. In 2022 41st International Conference of the Chilean Computer Science Society (SCCC), pp. 1–6.
+Implementation of a Topological Map Matching Algorithm, based on _Blazquez, C., León, R., Pérez, F., & Delgado, L. (2022). Pre-processing techniques for improving a topological map-matching algorithm. In 2022 41st International Conference of the Chilean Computer Science Society (SCCC), pp. 1–6._
 
 Status: Unfinished
 
